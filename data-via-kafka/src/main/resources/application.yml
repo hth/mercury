@@ -1,5 +1,5 @@
 server:
-  port: 8080
+  port: 7070
   shutdown: graceful
 
 springdoc:
@@ -11,23 +11,15 @@ springdoc:
 spring:
   main:
     web-application-type: REACTIVE
-  data:
-    mongodb:
-      uri: ${MONGO_URL}
-      auto-index-creation: true
   threads:
     virtual:
       enabled: true
   kafka:
     bootstrap-servers:
       - localhost:9092
-    consumer:
-      group-id: stream-transaction-group
-      auto-offset-reset: earliest
-      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
-      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
-      properties:
-        "group.instance.id": "1"
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
 
 management:
   health:

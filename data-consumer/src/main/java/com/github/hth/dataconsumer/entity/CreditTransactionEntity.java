@@ -1,5 +1,6 @@
 package com.github.hth.dataconsumer.entity;
 
+import com.github.hth.dataconsumer.enums.ReceiverTagEnum;
 import com.github.hth.dataconsumer.enums.TransactionStatusEnum;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -25,6 +26,9 @@ public class CreditTransactionEntity {
     @Id
     private String id;
 
+    @Field("TAG")
+    private ReceiverTagEnum receiverTagEnum;
+
     @Field("NAME")
     private String name;
 
@@ -49,7 +53,18 @@ public class CreditTransactionEntity {
     @Field("STATUS")
     private TransactionStatusEnum transactionStatus;
 
-    public CreditTransactionEntity(String name, String address, String phoneNumber, String country, String countryCode, Integer amount, LocalDateTime localDateTime, TransactionStatusEnum transactionStatus) {
+    public CreditTransactionEntity(
+            ReceiverTagEnum receiverTagEnum,
+            String name,
+            String address,
+            String phoneNumber,
+            String country,
+            String countryCode,
+            Integer amount,
+            LocalDateTime localDateTime,
+            TransactionStatusEnum transactionStatus
+    ) {
+        this.receiverTagEnum = receiverTagEnum;
         this.name = name;
         this.address = address;
         this.phoneNumber = phoneNumber;
