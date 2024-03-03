@@ -31,7 +31,7 @@ public class CreditTransactionEntity {
     private ReceiverTagEnum receiverTagEnum;
 
     @Field("TX")
-    private UUID transactionId;
+    private String transactionId;
 
     @Field("NAME")
     private String name;
@@ -59,7 +59,7 @@ public class CreditTransactionEntity {
 
     public CreditTransactionEntity(
             ReceiverTagEnum receiverTagEnum,
-            UUID transactionId,
+            String transactionId,
             String name,
             String address,
             String phoneNumber,

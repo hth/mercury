@@ -8,7 +8,6 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import java.time.LocalDateTime;
-import java.util.UUID;
 
 @Data
 @AllArgsConstructor(staticName = "create")
@@ -16,7 +15,7 @@ import java.util.UUID;
 @ToString
 public class CreditTransactionDTO {
     private ReceiverTagEnum receiverTagEnum;
-    private UUID transactionId;
+    private String transactionId;
     private String name;
     private String address;
     private String phoneNumber;

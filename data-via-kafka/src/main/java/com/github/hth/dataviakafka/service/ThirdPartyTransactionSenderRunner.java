@@ -40,7 +40,7 @@ public class ThirdPartyTransactionSenderRunner implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         Flux<SenderRecord<String, CreditTransactionDTO, String>> senderRecordFlux = createTransactions()
-                .map(tx -> new ProducerRecord<>(externalTransactionTopic, tx.getTransactionId().toString(), tx))
+                .map(tx -> new ProducerRecord<>(externalTransactionTopic, tx.getTransactionId(), tx))
                 .doOnNext(r -> log.info("Transaction sent from topic={} key={} value={}", r.topic(), r.key(), r.value()))
                 .map(producerRecord -> SenderRecord.create(producerRecord, producerRecord.key()));
 
@@ -60,7 +60,7 @@ public class ThirdPartyTransactionSenderRunner implements CommandLineRunner {
         Country country = faker.country();
         return CreditTransactionDTO.create(
                 ReceiverTagEnum.KAFKA,
-                UUID.randomUUID(),
+                UUID.randomUUID().toString(),
                 faker.name().fullName(),
                 faker.address().fullAddress(),
                 faker.phoneNumber().phoneNumber(),
