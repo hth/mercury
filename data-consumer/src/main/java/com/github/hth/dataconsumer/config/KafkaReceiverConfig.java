@@ -1,5 +1,6 @@
 package com.github.hth.dataconsumer.config;
 
+import com.github.hth.dataconsumer.dto.CreditTransactionDTO;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.kafka.KafkaProperties;
 import org.springframework.context.annotation.Bean;
@@ -20,13 +21,13 @@ public class KafkaReceiverConfig {
     private String externalTransactionTopic;
 
     @Bean
-    public ReceiverOptions<String, String> receiverOptions(KafkaProperties kafkaProperties) {
-        return ReceiverOptions.<String, String>create(kafkaProperties.buildConsumerProperties())
+    public ReceiverOptions<String, CreditTransactionDTO> receiverOptions(KafkaProperties kafkaProperties) {
+        return ReceiverOptions.<String, CreditTransactionDTO>create(kafkaProperties.buildConsumerProperties())
             .subscription(List.of(externalTransactionTopic));
     }
 
     @Bean
-    public ReactiveKafkaConsumerTemplate<String, String> consumerTemplate(ReceiverOptions<String, String> receiverOptions) {
+    public ReactiveKafkaConsumerTemplate<String, CreditTransactionDTO> consumerTemplate(ReceiverOptions<String, CreditTransactionDTO> receiverOptions) {
         return new ReactiveKafkaConsumerTemplate<>(receiverOptions);
     }
 }

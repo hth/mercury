@@ -1,5 +1,6 @@
 package com.github.hth.dataviakafka.config;
 
+import com.github.hth.dataviakafka.dto.CreditTransactionDTO;
 import org.springframework.boot.autoconfigure.kafka.KafkaProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -10,12 +11,12 @@ import reactor.kafka.sender.SenderOptions;
 public class KafkaProducerConfig {
 
     @Bean
-    public SenderOptions<String, String> senderOptions(KafkaProperties kafkaProperties) {
+    public SenderOptions<String, CreditTransactionDTO> senderOptions(KafkaProperties kafkaProperties) {
         return SenderOptions.create(kafkaProperties.buildProducerProperties());
     }
 
     @Bean
-    public ReactiveKafkaProducerTemplate<String, String> producerTemplate(SenderOptions<String, String> senderOptions) {
+    public ReactiveKafkaProducerTemplate<String, CreditTransactionDTO> producerTemplate(SenderOptions<String, CreditTransactionDTO> senderOptions) {
         return new ReactiveKafkaProducerTemplate<>(senderOptions);
     }
 }

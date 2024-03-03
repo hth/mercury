@@ -11,6 +11,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 /**
  * Expected record of transaction from various data source.
@@ -28,6 +29,9 @@ public class CreditTransactionEntity {
 
     @Field("TAG")
     private ReceiverTagEnum receiverTagEnum;
+
+    @Field("TX")
+    private UUID transactionId;
 
     @Field("NAME")
     private String name;
@@ -55,6 +59,7 @@ public class CreditTransactionEntity {
 
     public CreditTransactionEntity(
             ReceiverTagEnum receiverTagEnum,
+            UUID transactionId,
             String name,
             String address,
             String phoneNumber,
@@ -65,6 +70,7 @@ public class CreditTransactionEntity {
             TransactionStatusEnum transactionStatus
     ) {
         this.receiverTagEnum = receiverTagEnum;
+        this.transactionId = transactionId;
         this.name = name;
         this.address = address;
         this.phoneNumber = phoneNumber;
