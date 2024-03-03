@@ -52,7 +52,6 @@ public class ThirdPartyTransactionSenderRunner implements CommandLineRunner {
 
     private Flux<CreditTransactionDTO> createTransactions() {
         return  Flux.interval(Duration.ofSeconds(dataGenerateDurationInSeconds))
-                .take(10)
                 .map(i -> generateRandom());
     }
 

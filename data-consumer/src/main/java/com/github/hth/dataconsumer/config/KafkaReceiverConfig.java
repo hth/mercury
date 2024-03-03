@@ -10,10 +10,6 @@ import reactor.kafka.receiver.ReceiverOptions;
 
 import java.util.List;
 
-/**
- * hitender
- * 1/28/24 8:07 PM
- */
 @Configuration
 public class KafkaReceiverConfig {
 

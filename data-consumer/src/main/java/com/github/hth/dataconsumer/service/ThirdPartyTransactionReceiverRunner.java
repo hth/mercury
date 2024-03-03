@@ -9,7 +9,10 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.kafka.core.reactive.ReactiveKafkaConsumerTemplate;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
+import reactor.core.scheduler.Schedulers;
 import reactor.kafka.receiver.ReceiverRecord;
+
+import java.util.concurrent.Executors;
 
 @Service
 @Slf4j
@@ -31,6 +34,7 @@ public class ThirdPartyTransactionReceiverRunner implements CommandLineRunner {
         reactiveKafkaConsumerTemplate.receive()
                 .doOnNext(r -> log.info("Transaction received at topic={} key={} value={}", r.topic(), r.key(), r.value()))
                 .doOnNext(r -> r.headers().forEach(header -> log.info("header key={} value={}", header.key(), new String(header.value()))))
+                .publishOn(Schedulers.fromExecutor(Executors.newVirtualThreadPerTaskExecutor()))
                 .flatMap(r -> persistTransactionFromKafka(r).thenReturn(r))
                 .doOnNext(r -> r.receiverOffset().acknowledge())
                 .subscribe();
@@ -38,7 +42,7 @@ public class ThirdPartyTransactionReceiverRunner implements CommandLineRunner {
 
     private Mono<CreditTransactionEntity> persistTransactionFromKafka(ReceiverRecord<String, CreditTransactionDTO> r) {
         return creditTransactionRepository.save(EntityToDtoUtil.convertDTOToEntity(r.value()))
-                .doOnNext(c -> log.info("Committed transaction {} {}", c.getReceiverTagEnum(), c.getTransactionId()));
+                .doOnNext(c -> log.info("Saved... {} {} {}", c.getReceiverTagEnum(), c.getTransactionId(), Thread.currentThread().getName()));
     }
 
 }
