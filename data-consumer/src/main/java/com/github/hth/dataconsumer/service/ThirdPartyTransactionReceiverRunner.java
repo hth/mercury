@@ -9,6 +9,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.kafka.core.reactive.ReactiveKafkaConsumerTemplate;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
+import reactor.core.publisher.Sinks;
 import reactor.core.scheduler.Schedulers;
 import reactor.kafka.receiver.ReceiverRecord;
 
@@ -20,13 +21,16 @@ public class ThirdPartyTransactionReceiverRunner implements CommandLineRunner {
 
     private final ReactiveKafkaConsumerTemplate<String, CreditTransactionDTO> reactiveKafkaConsumerTemplate;
     private final CreditTransactionRepository creditTransactionRepository;
+    private final Sinks.Many<CreditTransactionDTO> creditSink;
 
     public ThirdPartyTransactionReceiverRunner(
             ReactiveKafkaConsumerTemplate<String, CreditTransactionDTO> reactiveKafkaConsumerTemplate,
-            CreditTransactionRepository creditTransactionRepository
+            CreditTransactionRepository creditTransactionRepository,
+            Sinks.Many<CreditTransactionDTO> creditSink
     ) {
         this.reactiveKafkaConsumerTemplate = reactiveKafkaConsumerTemplate;
         this.creditTransactionRepository = creditTransactionRepository;
+        this.creditSink = creditSink;
     }
 
     @Override
@@ -40,8 +44,10 @@ public class ThirdPartyTransactionReceiverRunner implements CommandLineRunner {
                 .subscribe();
     }
 
-    private Mono<CreditTransactionEntity> persistTransactionFromKafka(ReceiverRecord<String, CreditTransactionDTO> r) {
+    private Mono<CreditTransactionDTO> persistTransactionFromKafka(ReceiverRecord<String, CreditTransactionDTO> r) {
         return creditTransactionRepository.save(EntityToDtoUtil.convertDTOToEntity(r.value()))
+                .map(EntityToDtoUtil::convertEntityToDTO)
+                .doOnNext(creditSink::tryEmitNext)
                 .doOnNext(c -> log.info("Saved... {} {} {}", c.getReceiverTagEnum(), c.getTransactionId(), Thread.currentThread().getName()));
     }
 
