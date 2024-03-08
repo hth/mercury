@@ -9,9 +9,21 @@ import reactor.core.publisher.Sinks;
 public class StreamConfig {
 
     private final Sinks.Many<CreditTransactionDTO> creditSink = Sinks.many().multicast().onBackpressureBuffer(2);
+    private final Sinks.Many<CreditTransactionDTO> successCreditSink = Sinks.many().multicast().onBackpressureBuffer(2);
+    private final Sinks.Many<CreditTransactionDTO> failureCreditSink = Sinks.many().multicast().onBackpressureBuffer(2);
 
     @Bean
     public Sinks.Many<CreditTransactionDTO> sinkOfCredit() {
         return creditSink;
+    }
+
+    @Bean
+    public Sinks.Many<CreditTransactionDTO> successSinkOfCredit() {
+        return successCreditSink;
+    }
+
+    @Bean
+    public Sinks.Many<CreditTransactionDTO> failureCreditSink() {
+        return failureCreditSink;
     }
 }
