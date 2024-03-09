@@ -13,14 +13,14 @@ spring:
     web-application-type: REACTIVE
   data:
     mongodb:
-      uri: ${MONGO_URI}
+      uri: ${MONGO_URL}
       auto-index-creation: true
   threads:
     virtual:
       enabled: true
   kafka:
     bootstrap-servers:
-      - ${KAFKA_URI}
+      - ${KAFKA_URL}
     consumer:
       group-id: stream-transaction-group
       auto-offset-reset: earliest
