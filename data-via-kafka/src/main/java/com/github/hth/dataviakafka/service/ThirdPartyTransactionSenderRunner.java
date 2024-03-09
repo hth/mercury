@@ -5,7 +5,6 @@ import com.github.hth.dataviakafka.enums.ReceiverTagEnum;
 import com.github.hth.dataviakafka.enums.TransactionStatusEnum;
 import lombok.extern.slf4j.Slf4j;
 import net.datafaker.Faker;
-import net.datafaker.providers.base.Country;
 import org.apache.kafka.clients.producer.ProducerRecord;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
@@ -56,15 +55,14 @@ public class ThirdPartyTransactionSenderRunner implements CommandLineRunner {
     }
 
     private CreditTransactionDTO generateRandom() {
-        Country country = faker.country();
         return CreditTransactionDTO.create(
                 ReceiverTagEnum.KAFKA,
                 UUID.randomUUID().toString(),
                 faker.name().fullName(),
                 faker.address().fullAddress(),
                 faker.phoneNumber().phoneNumber(),
-                country.name(),
-                country.countryCode2(),
+                faker.country().name(),
+                faker.country().countryCode2(),
                 ThreadLocalRandom.current().nextInt(10, 100),
                 LocalDateTime.now(),
                 /* 90% transaction success rate. */
