@@ -1,0 +1,85 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: mongo-data-pv-mercury
+  namespace: mercury-microservice
+spec:
+  accessModes:
+    - ReadWriteOnce # the volume can be mounted as read-write by a single node
+  capacity:
+    storage: 1000Mi
+  hostPath:
+    path: /tmp/mongo-data-pv-mercury
+    type: ""
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: standard
+  volumeMode: Filesystem
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: mongo-data-pvc-mercury
+  namespace: mercury-microservice
+spec:
+  storageClassName: standard
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1000Mi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mongo-service
+  namespace: mercury-microservice
+  labels:
+    tier: database-tier
+spec:
+  type: NodePort
+  ports:
+    - port: 27017
+      protocol: TCP
+  selector:
+    tier: database-tier
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mongo-deployment
+  namespace: mercury-microservice
+  labels:
+    name: mercury-app
+    tier: database-tier
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      tier: database-tier
+  template:
+    metadata:
+      namespace: mercury-microservice
+      name: mongo
+      labels:
+        tier: database-tier
+    spec:
+      containers:
+        - name: mongo
+          image: mongo:7.0.6
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 27017
+          env:
+            - name: MONGO_INITDB_ROOT_USERNAME
+              value: "admin"
+            - name: MONGO_INITDB_ROOT_PASSWORD
+              value: "password1234"
+          volumeMounts:
+            - mountPath: /data/db
+              name: mongo-data
+      volumes:
+        - name: mongo-data
+          persistentVolumeClaim:
+            claimName: mongo-data-pvc-mercury
+      restartPolicy: Always
+
