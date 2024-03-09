@@ -1,6 +1,6 @@
 ### Deploy 
 
-    k create -f mongo.yml && k create -f kafka.yml && sleep 20 && k create -f data-consumer.yml
+    k create -f mongo.yml && k create -f kafka.yml && sleep 25 && k create -f data-via-kafka.yml && sleep 5 && k create -f data-consumer.yml
 
 ### Delete 
 
@@ -15,15 +15,20 @@
     k delete service kafka-headless -n mercury-microservice
     k delete statefulset.apps/kafka -n mercury-microservice
     k create -f kafka.yml -n mercury-microservice
+
+    echo 'Delete data-via-kafka'
+    k delete service via-kafka-service -n mercury-microservice
+    k delete deployment.apps/via-kafka-deployment -n mercury-microservice
     
     echo 'Delete data-consumer'
     k delete service consumer-service -n mercury-microservice
-    k delete deployment.apps/consumer-deployment  -n mercury-microservice
+    k delete deployment.apps/consumer-deployment -n mercury-microservice
 
 ### Logs 
     
     echo "Logs"
     k logs deployment.apps/consumer-deployment -n mercury-microservice
+    k logs deployment.apps/via-kafka-deployment -n mercury-microservice
     k logs kafka-0 -n mercury-microservice
     
 ### Connect bash pod
