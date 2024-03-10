@@ -9,7 +9,7 @@ metadata:
 spec:
   type: NodePort
   ports:
-    - port: 8081
+    - port: 8082
       protocol: TCP
   selector:
     app: via-kafka-app
@@ -39,7 +39,7 @@ spec:
           image: 10austin/data-via-kafka
           imagePullPolicy: IfNotPresent
           ports:
-            - containerPort: 8081
+            - containerPort: 8082
               protocol: TCP
           env:
             - name: KAFKA_URL
