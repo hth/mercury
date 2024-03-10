@@ -101,7 +101,7 @@ spec:
             # readOnlyRootFilesystem: true
             runAsGroup: 1000
             runAsUser: 1000
-          terminationMessagePath: /dev/termination-log
+          terminationMessagePath: /dev/termination-mercury-log
           terminationMessagePolicy: File
           volumeMounts:
             - mountPath: /etc/kafka/mercury
