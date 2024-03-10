@@ -9,11 +9,15 @@ springdoc:
     path: /v3/api-docs
 
 spring:
+  profiles:
+    active: dev
   main:
     web-application-type: REACTIVE
   threads:
     virtual:
       enabled: true
+  autoconfigure:
+    exclude: org.springframework.boot.autoconfigure.mongo.MongoAutoConfiguration, org.springframework.boot.autoconfigure.data.mongo.MongoDataAutoConfiguration
   kafka:
     bootstrap-servers:
       - ${KAFKA_URL}

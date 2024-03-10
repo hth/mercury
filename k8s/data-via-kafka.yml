@@ -37,10 +37,12 @@ spec:
       containers:
         - name: via-kafka
           image: 10austin/data-via-kafka
-          imagePullPolicy: IfNotPresent
+          imagePullPolicy: Always
           ports:
             - containerPort: 8082
               protocol: TCP
           env:
+            - name: SPRING_PROFILES_ACTIVE
+              value: prod
             - name: KAFKA_URL
               value: 0.0.0.0:9092

@@ -9,6 +9,8 @@ springdoc:
     path: /v3/api-docs
 
 spring:
+  profiles:
+    active: dev
   main:
     web-application-type: REACTIVE
   data:

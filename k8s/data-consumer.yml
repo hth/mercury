@@ -37,17 +37,19 @@ spec:
       containers:
         - name: consumer
           image: 10austin/data-consumer
-          imagePullPolicy: IfNotPresent
+          imagePullPolicy: Always
           ports:
             - containerPort: 8081
               protocol: TCP
           env:
+            - name: SPRING_PROFILES_ACTIVE
+              value: prod
             - name: MONGO_INITDB_ROOT_USERNAME
-              value: "admin"
+              value: admin
             - name: MONGO_INITDB_ROOT_PASSWORD
-              value: "password1234"
+              value: password1234
             - name: MONGO_DB_NAME
-              value: "mercury"
+              value: mercury
             - name: MONGO_URL
               value: mongodb://$(MONGO_INITDB_ROOT_USERNAME):$(MONGO_INITDB_ROOT_PASSWORD)@$(MONGO_SERVICE_SERVICE_HOST):$(MONGO_SERVICE_SERVICE_PORT)/$(MONGO_DB_NAME)?authSource=admin #mongodb://host:27017/db
             - name: KAFKA_URL
