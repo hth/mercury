@@ -45,4 +45,4 @@ spec:
             - name: SPRING_PROFILES_ACTIVE
               value: prod
             - name: KAFKA_URL
-              value: 0.0.0.0:9092
+              value: kafka-headless:9092
