@@ -1,0 +1,44 @@
+server:
+  port: 8082
+  shutdown: graceful
+
+spring:
+  profiles:
+    active: dev
+  application:
+    name: data-csv
+  main:
+    web-application-type: SERVLET
+  threads:
+    virtual:
+      enabled: true
+  autoconfigure:
+    exclude: org.springframework.boot.autoconfigure.mongo.MongoAutoConfiguration, org.springframework.boot.autoconfigure.data.mongo.MongoDataAutoConfiguration
+
+management:
+  health:
+    livenessstate:
+      enabled: true
+    readinessstate:
+      enabled: true
+  endpoint:
+    shutdown:
+      enabled: true
+    health:
+      probes:
+        enabled: true
+      show-details: always
+  info:
+    build:
+      enabled: true
+    env:
+      enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics,prometheus,loggers,beans
+  prometheus:
+    metrics:
+      export:
+        enabled: true
+        descriptions: true
