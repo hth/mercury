@@ -48,7 +48,7 @@ public class ThirdPartyTransactionSenderScheduler {
         this.faker = new Faker();
     }
 
-    @Scheduled(fixedRate = 50000)
+    @Scheduled(fixedRateString = "${schedule.upload.csv.in.milliseconds}", initialDelay = 60000)
     public void reportCurrentTime() {
         log.info("Started scheduled process");
         String stringBuilder = IntStream.range(0, limitRecords)
