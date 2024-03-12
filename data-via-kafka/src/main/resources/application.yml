@@ -11,6 +11,8 @@ springdoc:
 spring:
   profiles:
     active: dev
+  application:
+    name: data-via-kafka
   main:
     web-application-type: REACTIVE
   threads:

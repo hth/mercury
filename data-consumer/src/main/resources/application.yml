@@ -11,6 +11,8 @@ springdoc:
 spring:
   profiles:
     active: dev
+  application:
+    name: data-consumer
   main:
     web-application-type: REACTIVE
   data:
