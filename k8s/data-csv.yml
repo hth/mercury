@@ -1,0 +1,46 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: csv-service
+  namespace: mercury-microservice
+  labels:
+    name: csv-service
+    app: csv-app
+spec:
+  type: NodePort
+  ports:
+    - port: 8082
+      protocol: TCP
+  selector:
+    app: csv-app
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: csv-deployment
+  namespace: mercury-microservice
+  labels:
+    name: csv-deployment
+    app: csv-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: csv-app
+  template:
+    metadata:
+      name: csv-deployed-pod
+      namespace: mercury-microservice
+      labels:
+        app: csv-app
+    spec:
+      containers:
+        - name: consumer
+          image: 10austin/data-csv
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8082
+              protocol: TCP
+          env:
+            - name: SPRING_PROFILES_ACTIVE
+              value: prod
