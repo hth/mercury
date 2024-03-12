@@ -49,8 +49,8 @@ public class ThirdPartyTransactionSenderScheduler {
     }
 
     @Scheduled(fixedRateString = "${schedule.upload.csv.in.milliseconds}", initialDelay = 60000)
-    public void reportCurrentTime() {
-        log.info("Started scheduled process");
+    public void uploadFile() {
+        log.info("Started file upload scheduled process");
         String stringBuilder = IntStream.range(0, limitRecords)
                 .mapToObj(i -> generateRandom().asRecordForCSV() + System.lineSeparator())
                 .collect(Collectors.joining("", "TAG,TX,NAME,ADDRESS,PHONE_NUMBER,COUNTRY,COUNTRY_CODE,AMOUNT,DATE,STATUS" + System.lineSeparator(), ""));

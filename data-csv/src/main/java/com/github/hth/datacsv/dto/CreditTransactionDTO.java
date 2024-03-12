@@ -26,15 +26,15 @@ public class CreditTransactionDTO {
     private TransactionStatusEnum transactionStatus;
 
     public String asRecordForCSV() {
-        return receiverTagEnum + "," +
-                transactionId + "," +
-                name + "," +
-                address + "," +
-                phoneNumber + "," +
-                country + "," +
-                countryCode + "," +
-                amount + "," +
-                localDateTime + "," +
+        return receiverTagEnum + ";" +
+                transactionId + ";" +
+                name + ";" +
+                address.replaceAll(",", "") + ";" +
+                phoneNumber + ";" +
+                country + ";" +
+                countryCode + ";" +
+                amount + ";" +
+                localDateTime + ";" +
                 transactionStatus;
     }
 }
