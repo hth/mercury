@@ -62,7 +62,7 @@ Make sure your cursor is under `k8s` folder
 
 ### URL
 
-    minikube service kafka-headless -n mercury-microservice --url
+    minikube service -n mercury-microservice --url kafka-headless 
 
 [//]: # (kubectl logs deployment.apps/kafka-deployment -n mercury-microservice)
 
@@ -84,3 +84,9 @@ Make sure your cursor is under `k8s` folder
     $ minikube tunnel
     Starting tunnel for service balanced.
     docker@127.0.0.1's password:  # <-- this should accept above password
+
+### Refer Image
+
+Image below showing mapping port and container port [Image referred link](https://kodekloud.com/blog/clusterip-nodeport-loadbalancer/)
+
+![Service Port Mapping](./images/ports.png)
