@@ -1,45 +1,67 @@
+## Deploy and Delete Commands 
+
+Make sure your cursor is under `k8s` folder  
+
 ### Deploy 
 
-    k create -f mongo.yml && k create -f kafka.yml && sleep 30 && k create -f data-via-kafka.yml && sleep 5 && k create -f data-consumer.yml && k create -f data-csv.yml
+    kubectl create -f mongo.yml && kubectl create -f kafka.yml && sleep 30 && kubectl create -f data-via-kafka.yml && sleep 5 && kubectl create -f data-consumer.yml && kubectl create -f data-csv.yml
 
 ### Delete 
 
     echo 'Delete Mongo'
-    k delete deployment mongo-deployment -n mercury-microservice 
-    k delete service mongo-service -n mercury-microservice
-    k delete persistentvolumeclaim mongo-data-pvc-mercury -n mercury-microservice  
-    k delete persistentvolume mongo-data-pv-mercury 
+    kubectl delete deployment mongo-deployment -n mercury-microservice 
+    kubectl delete service mongo-service -n mercury-microservice
+    kubectl delete persistentvolumeclaim mongo-data-pvc-mercury -n mercury-microservice  
+    kubectl delete persistentvolume mongo-data-pv-mercury 
     
     echo 'Delete Kafka'
-    k delete serviceaccount kafka -n mercury-microservice
-    k delete service kafka-headless -n mercury-microservice
-    k delete statefulset kafka -n mercury-microservice
+    kubectl delete serviceaccount kafka -n mercury-microservice
+    kubectl delete service kafka-headless -n mercury-microservice
+    kubectl delete statefulset kafka -n mercury-microservice
 
     echo 'Delete data-via-kafka'
-    k delete service via-kafka-service -n mercury-microservice
-    k delete deployment via-kafka-deployment -n mercury-microservice
+    kubectl delete service via-kafka-service -n mercury-microservice
+    kubectl delete deployment via-kafka-deployment -n mercury-microservice
     
     echo 'Delete data-consumer'
-    k delete service consumer-service -n mercury-microservice
-    k delete deployment consumer-deployment -n mercury-microservice
+    kubectl delete service consumer-service -n mercury-microservice
+    kubectl delete deployment consumer-deployment -n mercury-microservice
 
     echo 'Delete data-csv'
-    k delete service csv-service -n mercury-microservice
-    k delete deployment csv-deployment -n mercury-microservice
+    kubectl delete service csv-service -n mercury-microservice
+    kubectl delete deployment csv-deployment -n mercury-microservice
 
 ### Logs 
     
     echo "Logs"
-    k logs deployment.apps/consumer-deployment -n mercury-microservice
-    k logs deployment.apps/via-kafka-deployment -n mercury-microservice
-    k logs deployment.apps/csv-deployment -n mercury-microservice
-    k logs kafka-0 -n mercury-microservice
+    kubectl logs deployment.apps/consumer-deployment -n mercury-microservice
+    kubectl logs deployment.apps/via-kafka-deployment -n mercury-microservice
+    kubectl logs deployment.apps/csv-deployment -n mercury-microservice
+    kubectl logs kafka-0 -n mercury-microservice
     
 ### Connect bash pod
     
-    k exec -it consumer-deployment-<id> /bin/sh -n mercury-microservice
-    k exec -it kafka-0 /bin/sh -n mercury-microservice
-    k exec -it mongo-deployment-<id> /bin/sh -n mercury-microservice
-    k exec -it -c busybox nginx-busybox -- /bin/sh
+    kubectl exec -it consumer-deployment-<id> /bin/sh -n mercury-microservice
+    kubectl exec -it kafka-0 /bin/sh -n mercury-microservice
+    kubectl exec -it mongo-deployment-<id> /bin/sh -n mercury-microservice
+    kubectl exec -it -c busybox nginx-busybox -- /bin/sh
 
-[//]: # (k logs deployment.apps/kafka-deployment -n mercury-microservice)
+- All pods - `kubectl get pods --all-namespaces`
+- Port of pod - `kubectl get pod kafka-0 --template='{{(index (index .spec.containers 0).ports 0).containerPort}}{{"\n"}}' -n mercury-microservice`
+- Port forward local port
+  - `kubectl port-forward service/mongo 28015:27017`
+  - `kubectl port-forward deployment/mongo :27017`
+- [More Port Forwarding](https://kubernetes.io/docs/tasks/access-application-cluster/port-forward-access-application-cluster/)
+
+
+    kubectl port-forward service/kafka-headless 28015:27017
+
+### Describe
+
+    kubectl describe service kafka-headless -n mercury-microservice
+
+### URL
+
+    minikube service kafka-headless -n mercury-microservice --url
+
+[//]: # (kubectl logs deployment.apps/kafka-deployment -n mercury-microservice)
