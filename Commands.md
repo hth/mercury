@@ -65,3 +65,22 @@ Make sure your cursor is under `k8s` folder
     minikube service kafka-headless -n mercury-microservice --url
 
 [//]: # (kubectl logs deployment.apps/kafka-deployment -n mercury-microservice)
+
+#### Get SHA256
+
+    docker images --no-trunc --quiet 10austin/data-consumer
+    sha256:d08ce4b71db81c6d9c7ec32b6b0d74875c9d632f3d8c2486219280eeb0ce6c58
+
+#### Tunnel (Does not work)
+
+    $ minikube ssh
+    docker@minikube:~$ sudo su -
+    root@minikube:~# passwd docker
+    New password:    # <-- you can set any password
+    Retype new password:
+    passwd: password updated successfully
+    root@minikube:~# logout
+    docker@minikube:~$ logout
+    $ minikube tunnel
+    Starting tunnel for service balanced.
+    docker@127.0.0.1's password:  # <-- this should accept above password
