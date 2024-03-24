@@ -1,3 +1,6 @@
+/*
+ * Copyright 2024 the original author hth.
+ */
 package com.github.hth.datacsv.scheduler;
 
 import com.github.hth.datacsv.dto.CreditTransactionDTO;
@@ -12,7 +15,6 @@ import org.springframework.stereotype.Component;
 import software.amazon.awssdk.core.sync.RequestBody;
 import software.amazon.awssdk.services.s3.S3Client;
 import software.amazon.awssdk.services.s3.model.PutObjectRequest;
-import software.amazon.awssdk.services.s3.model.PutObjectResponse;
 import software.amazon.awssdk.services.s3.model.S3Exception;
 
 import java.io.File;

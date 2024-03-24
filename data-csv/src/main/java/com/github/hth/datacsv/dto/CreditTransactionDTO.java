@@ -1,3 +1,6 @@
+/*
+ * Copyright 2024 the original author hth.
+ */
 package com.github.hth.datacsv.dto;
 
 import com.github.hth.datacsv.enums.ReceiverTagEnum;

@@ -1,3 +1,6 @@
+/*
+ * Copyright 2024 the original author or authors...
+ */
 package com.github.hth.datacsv;
 
 import org.junit.jupiter.api.Test;
