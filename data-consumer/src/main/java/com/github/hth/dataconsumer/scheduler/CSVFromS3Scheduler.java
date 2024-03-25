@@ -26,6 +26,7 @@ import software.amazon.awssdk.services.s3.S3Client;
 import software.amazon.awssdk.services.s3.model.*;
 
 import java.io.*;
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -68,7 +69,7 @@ public class CSVFromS3Scheduler {
         this.failureCreditSink = failureCreditSink;
     }
 
-    @Scheduled(fixedRateString = "${schedule.download.csv.in.milliseconds}", initialDelay = 6000)
+    @Scheduled(fixedRateString = "${schedule.download.csv.in.milliseconds}", initialDelay = 60000)
     public void downloadFile() {
         log.info("Started scheduled download process");
         ListObjectsV2Request listObjectsV2Request = ListObjectsV2Request.builder()
@@ -78,10 +79,12 @@ public class CSVFromS3Scheduler {
 
         List<S3Object> contents = listObjectsV2Response.contents().reversed();
         log.info("Number of objects in the bucket: {}", contents.size());
-        contents.stream()
+        Flux.fromStream(contents.stream())
+                .delayElements(Duration.ofMinutes(1))
                 .map(s3Object -> processCSV(s3Object.key()))
-                .skip(1) //Keeping Just one file in S3 and deleting all other files
-                .forEach(this::delete);
+                .skip(2) //Keeping Just 2 files in S3 and deleting all other files
+                .doOnNext(this::delete)
+                .subscribe();
     }
 
     public String processCSV(String key) {
@@ -90,7 +93,7 @@ public class CSVFromS3Scheduler {
                 .key(key)
                 .build();
 
-        log.info("Location {}", objectRequest.toString());
+        log.info("File Location on S3 {}", objectRequest.toString());
         ResponseBytes<GetObjectResponse> responseResponseBytes = s3Client.getObjectAsBytes(objectRequest);
         byte[] data = responseResponseBytes.asByteArray();
 
@@ -154,7 +157,7 @@ public class CSVFromS3Scheduler {
                 log.info("{}", creditTransactionDTO);
             }
 
-            log.info("Found Records {}", results.size());
+            log.info("Found CSV Records {}", results.size());
         } catch (Exception e) {
             log.error("Error reading csv file {} {}", file.getName(), e.getMessage(), e);
         }
