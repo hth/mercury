@@ -28,16 +28,16 @@ public class CreditTransactionDTO {
     private LocalDateTime localDateTime;
     private TransactionStatusEnum transactionStatus;
 
-    public String asRecordForCSV() {
-        return receiverTagEnum + ";" +
-                transactionId + ";" +
-                name + ";" +
-                address.replaceAll(",", "") + ";" +
-                phoneNumber + ";" +
-                country + ";" +
-                countryCode + ";" +
-                amount + ";" +
-                localDateTime + ";" +
+    public String asRecordForCSV(String delimiterCSV) {
+        return receiverTagEnum + delimiterCSV +
+                transactionId + delimiterCSV +
+                name + delimiterCSV +
+                address + delimiterCSV +
+                phoneNumber + delimiterCSV +
+                country + delimiterCSV +
+                countryCode + delimiterCSV +
+                amount + delimiterCSV +
+                localDateTime + delimiterCSV +
                 transactionStatus;
     }
 }

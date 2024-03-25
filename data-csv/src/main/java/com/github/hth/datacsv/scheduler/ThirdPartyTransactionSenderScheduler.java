@@ -41,6 +41,9 @@ public class ThirdPartyTransactionSenderScheduler {
     @Value("${data.file.prefix}")
     private String filePrefix;
 
+    @Value("${data.csv.delimiter}")
+    private String delimiterCSV;
+
     private final Faker faker;
     private final S3Client s3Client;
 
@@ -54,8 +57,8 @@ public class ThirdPartyTransactionSenderScheduler {
     public void uploadFile() {
         log.info("Started file upload scheduled process");
         String stringBuilder = IntStream.range(0, limitRecords)
-                .mapToObj(i -> generateRandom().asRecordForCSV() + System.lineSeparator())
-                .collect(Collectors.joining("", "TAG,TX,NAME,ADDRESS,PHONE_NUMBER,COUNTRY,COUNTRY_CODE,AMOUNT,DATE,STATUS" + System.lineSeparator(), ""));
+                .mapToObj(i -> generateRandom().asRecordForCSV(delimiterCSV) + System.lineSeparator())
+                .collect(Collectors.joining("", "TAG" + delimiterCSV + "TX" + delimiterCSV + "NAME" + delimiterCSV + "ADDRESS" + delimiterCSV + "PHONE_NUMBER" + delimiterCSV + "COUNTRY" + delimiterCSV + "COUNTRY_CODE" + delimiterCSV + "AMOUNT" + delimiterCSV + "DATE" + delimiterCSV + "STATUS" + System.lineSeparator(), ""));
 
         log.debug(stringBuilder);
         try {

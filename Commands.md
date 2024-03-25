@@ -4,7 +4,7 @@ Make sure your cursor is under `k8s` folder
 
 ### Deploy 
 
-    kubectl create -f mongo.yml && kubectl create -f kafka.yml && sleep 30 && kubectl create -f data-via-kafka.yml && sleep 5 && kubectl create -f data-consumer.yml && kubectl create -f data-csv.yml
+    kubectl create -f mongo.yml && kubectl create -f kafka.yml && sleep 30 && kubectl create -f data-via-kafka.yml && sleep 15 && kubectl create -f data-consumer.yml && kubectl create -f data-csv.yml
 
 ### Delete 
 

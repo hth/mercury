@@ -8,9 +8,10 @@ import com.github.hth.dataconsumer.enums.ReceiverTagEnum;
 import com.github.hth.dataconsumer.enums.TransactionStatusEnum;
 import com.github.hth.dataconsumer.repository.CreditTransactionRepository;
 import com.github.hth.dataconsumer.util.EntityToDtoUtil;
+import com.opencsv.CSVParser;
+import com.opencsv.CSVParserBuilder;
 import com.opencsv.CSVReader;
 import com.opencsv.CSVReaderBuilder;
-import com.opencsv.bean.HeaderColumnNameTranslateMappingStrategy;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -28,7 +29,6 @@ import java.io.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.concurrent.Executors;
 
 @Component
@@ -40,6 +40,9 @@ public class CSVFromS3Scheduler {
 
     @Value("${data.file.prefix}")
     private String filePrefix;
+
+    @Value("${data.csv.delimiter}")
+    private char delimiterCSV;
 
     private final S3Client s3Client;
     private final CreditTransactionRepository creditTransactionRepository;
@@ -87,6 +90,7 @@ public class CSVFromS3Scheduler {
                 .key(key)
                 .build();
 
+        log.info("Location {}", objectRequest.toString());
         ResponseBytes<GetObjectResponse> responseResponseBytes = s3Client.getObjectAsBytes(objectRequest);
         byte[] data = responseResponseBytes.asByteArray();
 
@@ -123,31 +127,34 @@ public class CSVFromS3Scheduler {
         List<CreditTransactionDTO> results = new ArrayList<>();
         try {
             FileReader filereader = new FileReader(file);
+            CSVParser parser = new CSVParserBuilder()
+                    .withSeparator(';')
+                    .build();
+
             CSVReader csvReader = new CSVReaderBuilder(filereader)
                     .withSkipLines(1)
+                    .withCSVParser(parser)
                     .build();
+
             List<String[]> allData = csvReader.readAll();
             for (String[] row : allData) {
-                for (String cell : row) {
-                    String[] data = cell.split(";");
-                    CreditTransactionDTO creditTransactionDTO = CreditTransactionDTO.create(
-                            ReceiverTagEnum.valueOf(data[0]),
-                            data[1],
-                            data[2],
-                            data[3],
-                            data[4],
-                            data[5],
-                            data[6],
-                            Integer.parseInt(data[7]),
-                            LocalDateTime.parse(data[8]),
-                            TransactionStatusEnum.valueOf(data[9])
-                    );
-                    results.add(creditTransactionDTO);
-                    log.info("{}", creditTransactionDTO);
-                }
+                CreditTransactionDTO creditTransactionDTO = CreditTransactionDTO.create(
+                        ReceiverTagEnum.valueOf(row[0]),
+                        row[1],
+                        row[2],
+                        row[3],
+                        row[4],
+                        row[5],
+                        row[6],
+                        Integer.parseInt(row[7]),
+                        LocalDateTime.parse(row[8]),
+                        TransactionStatusEnum.valueOf(row[9])
+                );
+                results.add(creditTransactionDTO);
+                log.info("{}", creditTransactionDTO);
             }
 
-            log.info("{}", results);
+            log.info("{}", results.size());
         } catch (Exception e) {
             log.error("Error reading csv file {} {}", file.getName(), e.getMessage(), e);
         }
