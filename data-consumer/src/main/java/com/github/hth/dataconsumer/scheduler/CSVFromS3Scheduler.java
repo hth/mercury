@@ -76,7 +76,7 @@ public class CSVFromS3Scheduler {
                 .build();
         ListObjectsV2Response listObjectsV2Response = s3Client.listObjectsV2(listObjectsV2Request);
 
-        List<S3Object> contents = listObjectsV2Response.contents();
+        List<S3Object> contents = listObjectsV2Response.contents().reversed();
         log.info("Number of objects in the bucket: {}", contents.size());
         contents.stream()
                 .map(s3Object -> processCSV(s3Object.key()))
