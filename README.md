@@ -27,6 +27,7 @@ Recipe added for license and static import. Refer [OpenRewrite](https://docs.ope
     - ollama run llama2
   - Llama 2 13B	13B	7.3GB
     - ollama run llama2:13b
+- [Api](https://github.com/ollama/ollama/blob/main/docs/api.md#api) 
 - https://ollama.com/
 - https://useanything.com/
 - [Discord location Ollama](https://discord.com/channels/1128867683291627614/1150902223417655317) 
