@@ -7,13 +7,11 @@ import com.github.hth.dataconsumer.dto.CreditTransactionDTO;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Sinks;
 
 @RestController
-@RequestMapping("/")
 public class StreamCreditController {
 
     private final Sinks.Many<CreditTransactionDTO> sinkOfCredit;
@@ -35,7 +33,7 @@ public class StreamCreditController {
         this.failureCreditSink= failureCreditSink;
     }
 
-    @GetMapping(value = "credit/stream", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
+    @GetMapping(value = {"credit/stream", "/"}, produces = MediaType.TEXT_EVENT_STREAM_VALUE)
     public Flux<CreditTransactionDTO> streamBookedOrders() {
         return sinkOfCredit.asFlux();
     }
