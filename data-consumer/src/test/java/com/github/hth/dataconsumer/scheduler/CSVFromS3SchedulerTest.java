@@ -16,15 +16,13 @@ import java.io.FileNotFoundException;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.mock;
 
 @ExtendWith(MockitoExtension.class)
 class CSVFromS3SchedulerTest {
 
     private CSVFromS3Scheduler csvFromS3Scheduler;
-    S3Client s3Client = mock(S3Client.class);
-    CreditTransactionRepository creditTransactionRepository = mock(CreditTransactionRepository.class);
-
+    @MockBean S3Client s3Client;
+    @MockBean CreditTransactionRepository creditTransactionRepository;
     @MockBean Sinks.Many<CreditTransactionDTO> sinkOfCredit;
     @MockBean Sinks.Many<CreditTransactionDTO> successCreditSink;
     @MockBean Sinks.Many<CreditTransactionDTO> failureCreditSink;
