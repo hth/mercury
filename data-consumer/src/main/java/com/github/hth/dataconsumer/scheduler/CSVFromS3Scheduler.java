@@ -154,7 +154,7 @@ public class CSVFromS3Scheduler {
                 log.info("{}", creditTransactionDTO);
             }
 
-            log.info("{}", results.size());
+            log.info("Found Records {}", results.size());
         } catch (Exception e) {
             log.error("Error reading csv file {} {}", file.getName(), e.getMessage(), e);
         }
