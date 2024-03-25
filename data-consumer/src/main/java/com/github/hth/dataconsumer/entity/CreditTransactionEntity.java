@@ -58,29 +58,4 @@ public class CreditTransactionEntity {
 
     @Field("STATUS")
     private TransactionStatusEnum transactionStatus;
-
-    public CreditTransactionEntity(
-            ReceiverTagEnum receiverTagEnum,
-            String transactionId,
-            String name,
-            String address,
-            String phoneNumber,
-            String country,
-            String countryCode,
-            Integer amount,
-            LocalDateTime localDateTime,
-            TransactionStatusEnum transactionStatus
-    ) {
-        this.receiverTagEnum = receiverTagEnum;
-        this.transactionId = transactionId;
-        this.name = name;
-        this.address = address;
-        this.phoneNumber = phoneNumber;
-        this.country = country;
-        this.countryCode = countryCode;
-        this.amount = amount;
-        this.localDateTime = localDateTime;
-        this.transactionStatus = transactionStatus;
-    }
-
 }
