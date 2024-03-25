@@ -1,3 +1,6 @@
+/*
+ * Copyright 2024 the original author hth.
+ */
 package com.github.hth.dataconsumer.entity;
 
 import com.github.hth.dataconsumer.enums.ReceiverTagEnum;

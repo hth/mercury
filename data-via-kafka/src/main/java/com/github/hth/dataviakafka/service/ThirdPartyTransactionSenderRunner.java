@@ -1,3 +1,6 @@
+/*
+ * Copyright 2024 the original author hth.
+ */
 package com.github.hth.dataviakafka.service;
 
 import com.github.hth.dataviakafka.dto.CreditTransactionDTO;

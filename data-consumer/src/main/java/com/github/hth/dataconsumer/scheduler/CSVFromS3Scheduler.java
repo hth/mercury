@@ -1,3 +1,6 @@
+/*
+ * Copyright 2024 the original author hth.
+ */
 package com.github.hth.dataconsumer.scheduler;
 
 import com.github.hth.dataconsumer.dto.CreditTransactionDTO;
