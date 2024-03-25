@@ -19,3 +19,15 @@ OR
 
 Recipe added for license and static import. Refer [OpenRewrite](https://docs.openrewrite.org/)
 
+## Spring AI
+
+- [Refer video on Ollama](https://www.youtube.com/watch?v=IJYC6zf86lU&t=36s)
+- library https://github.com/ollama/ollama
+  - Llama 2	7B	3.8GB
+    - ollama run llama2
+  - Llama 2 13B	13B	7.3GB
+    - ollama run llama2:13b
+- https://ollama.com/
+- https://useanything.com/
+- [Discord location Ollama](https://discord.com/channels/1128867683291627614/1150902223417655317) 
+
