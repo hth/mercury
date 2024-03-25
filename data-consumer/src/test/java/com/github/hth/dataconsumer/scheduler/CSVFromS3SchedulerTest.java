@@ -40,8 +40,8 @@ class CSVFromS3SchedulerTest {
 
     @Test
     void parseData() throws FileNotFoundException {
-        final File file = ResourceUtils.getFile("classpath:csv/Crd-Bnk-2024-3-12-18-42-33.csv");
-        List<CreditTransactionDTO> results = csvFromS3Scheduler.parseData(file);
+        var file = ResourceUtils.getFile("classpath:csv/Crd-Bnk-2024-3-12-18-42-33.csv");
+        var results = csvFromS3Scheduler.parseData(file);
         assertEquals(10, results.size());
     }
 }
