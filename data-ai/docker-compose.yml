@@ -1,0 +1,11 @@
+version: '3.8'
+services:
+  ollama:
+    hostname: ollama
+    container_name: ollama
+    image: ollama/ollama
+    ports:
+      - "11434:11434"
+
+# Then add model to the running docker image ollama
+# docker exec -it ollama ollama run llama2:13b
