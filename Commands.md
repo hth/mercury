@@ -4,7 +4,10 @@ Make sure your cursor is under `k8s` folder
 
 ### Deploy 
 
-    kubectl create -f mongo.yml && kubectl create -f kafka.yml && sleep 30 && kubectl create -f data-via-kafka.yml && sleep 30 && kubectl create -f data-consumer.yml && kubectl create -f data-csv.yml
+    kubectl create -f mongo.yml && kubectl create -f kafka.yml && sleep 30 && 
+    kubectl create -f data-via-kafka.yml && sleep 30 && 
+    kubectl create -f data-consumer.yml && kubectl create -f data-csv.yml &&
+    kubectl create -f data-ai.yml
 
 ### Delete 
 
@@ -30,6 +33,10 @@ Make sure your cursor is under `k8s` folder
     echo 'Delete data-csv'
     kubectl delete service csv-service -n mercury-microservice
     kubectl delete deployment csv-deployment -n mercury-microservice
+
+    echo 'Delete data-ai'
+    kubectl delete service ai-service -n mercury-microservice
+    kubectl delete deployment ai-deployment -n mercury-microservice
 
 ### Logs 
     
