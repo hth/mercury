@@ -8,11 +8,11 @@ import org.springframework.ai.openai.OpenAiChatClient;
 import org.springframework.stereotype.Service;
 
 @Service
-public class AIJokeService {
-    private static final Logger log = LoggerFactory.getLogger(AIJokeService.class);
+public class OpenAIService {
+    private static final Logger log = LoggerFactory.getLogger(OpenAIService.class);
     private final OpenAiChatClient openAiChatClient;
 
-    public AIJokeService(OpenAiChatClient openAiChatClient) {
+    public OpenAIService(OpenAiChatClient openAiChatClient) {
         this.openAiChatClient = openAiChatClient;
     }
 

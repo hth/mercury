@@ -1,4 +1,4 @@
-package com.github.hth.dataai.controller;
+package com.github.hth.dataai.exception;
 
 import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
@@ -10,8 +10,10 @@ import org.springframework.http.ProblemDetail;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
+import org.springframework.web.context.request.WebRequest;
+import org.springframework.web.reactive.result.method.annotation.ResponseEntityExceptionHandler;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 @RestControllerAdvice
@@ -19,6 +21,17 @@ public class ExceptionTranslator extends ResponseEntityExceptionHandler {
     private static final Logger log = LoggerFactory.getLogger(ExceptionTranslator.class);
 
     public static final String OPEN_AI_CLIENT_RAISED_EXCEPTION = "Open AI client raised exception";
+
+    @ExceptionHandler(ResourceNotFoundException.class)
+    public ResponseEntity<ErrorMessage> resourceNotFoundException(ResourceNotFoundException ex, WebRequest request) {
+        ErrorMessage message = new ErrorMessage(
+                HttpStatus.NOT_FOUND.value(),
+                LocalDateTime.now(),
+                ex.getMessage(),
+                request.getDescription(false));
+
+        return new ResponseEntity<>(message, HttpStatus.NOT_FOUND);
+    }
 
     @ExceptionHandler(OpenAiApiClientErrorException.class)
     ProblemDetail handleOpenAiClientErrorException(OpenAiApiClientErrorException ex) {

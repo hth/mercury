@@ -7,3 +7,10 @@ server:
 spring:
   ai:
     openai.api-key: ${spring.ai.openai.api-key}
+    ollama:
+      base-url: ${spring.ai.ollama.base-url}
+      chat:
+        options:
+          model: llama2:13b
+          temperature: 0.7
+        enabled: true
