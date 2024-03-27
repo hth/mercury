@@ -16,6 +16,22 @@ Make sure your cursor is under `k8s` folder
 
 ### Delete 
 
+    echo 'Delete data-ai'
+    kubectl delete service ai-service -n mercury-microservice
+    kubectl delete deployment ai-deployment -n mercury-microservice 
+
+    echo 'Delete data-csv'
+    kubectl delete service csv-service -n mercury-microservice
+    kubectl delete deployment csv-deployment -n mercury-microservice
+    
+    echo 'Delete data-consumer'
+    kubectl delete service consumer-service -n mercury-microservice
+    kubectl delete deployment consumer-deployment -n mercury-microservice
+
+    echo 'Delete data-via-kafka'
+    kubectl delete service via-kafka-service -n mercury-microservice
+    kubectl delete deployment via-kafka-deployment -n mercury-microservice    
+
     echo 'Delete Mongo'
     kubectl delete deployment mongo-deployment -n mercury-microservice 
     kubectl delete service mongo-service -n mercury-microservice
@@ -31,22 +47,6 @@ Make sure your cursor is under `k8s` folder
     kubectl delete serviceaccount ollama -n mercury-microservice
     kubectl delete service ollama-headless -n mercury-microservice
     kubectl delete statefulset ollama -n mercury-microservice
-
-    echo 'Delete data-via-kafka'
-    kubectl delete service via-kafka-service -n mercury-microservice
-    kubectl delete deployment via-kafka-deployment -n mercury-microservice
-    
-    echo 'Delete data-consumer'
-    kubectl delete service consumer-service -n mercury-microservice
-    kubectl delete deployment consumer-deployment -n mercury-microservice
-
-    echo 'Delete data-csv'
-    kubectl delete service csv-service -n mercury-microservice
-    kubectl delete deployment csv-deployment -n mercury-microservice
-
-    echo 'Delete data-ai'
-    kubectl delete service ai-service -n mercury-microservice
-    kubectl delete deployment ai-deployment -n mercury-microservice
 
 ### Logs 
     
