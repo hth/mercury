@@ -32,5 +32,4 @@ Recipe added for license and static import. Refer [OpenRewrite](https://docs.ope
 - https://useanything.com/
 - [Discord location Ollama](https://discord.com/channels/1128867683291627614/1150902223417655317)
 
-![For more Refer](./data-ai/ReadMe.md)
-
+[For more Refer](./data-ai/ReadMe.md)
