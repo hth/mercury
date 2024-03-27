@@ -1,0 +1,89 @@
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: ollama
+  namespace: mercury-microservice
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: ollama
+  name: ollama-headless
+  namespace: mercury-microservice
+spec:
+  clusterIP: None
+  clusterIPs:
+    - None
+  internalTrafficPolicy: Cluster
+  ipFamilies:
+    - IPv4
+  ipFamilyPolicy: SingleStack
+  ports:
+    - name: tcp-ollama-int
+      port: 11434
+      protocol: TCP
+      targetPort: tcp-ollama-int
+  selector:
+    app: ollama
+  sessionAffinity: None
+  type: ClusterIP
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  labels:
+    app: ollama
+  name: ollama
+  namespace: mercury-microservice
+spec:
+  podManagementPolicy: Parallel
+  replicas: 3
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      app: ollama
+  serviceName: ollama-headless
+  template:
+    metadata:
+      labels:
+        app: ollama
+    spec:
+      serviceAccountName: ollama
+      containers:
+        - name: ollama
+          image: ollama/ollama
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 11434
+              name: tcp-11434-int
+              protocol: TCP
+          resources:
+            limits:
+              cpu: "2"
+              memory: "4Gi"
+            requests:
+              cpu: "1"
+              memory: "2Gi"
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
+          terminationMessagePath: /dev/termination-ollama-log
+          terminationMessagePolicy: File
+          volumeMounts:
+            - mountPath: /etc/ollama/mercury
+              name: config
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext:
+        fsGroup: 1000
+      terminationGracePeriodSeconds: 30
+      volumes:
+        - emptyDir: {}
+          name: config
+  updateStrategy:
+    type: RollingUpdate

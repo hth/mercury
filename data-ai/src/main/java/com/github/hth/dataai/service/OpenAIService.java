@@ -10,6 +10,10 @@ import org.springframework.stereotype.Service;
 @Service
 public class OpenAIService {
     private static final Logger log = LoggerFactory.getLogger(OpenAIService.class);
+    private static final PromptTemplate promptTemplate = new PromptTemplate("""
+             Please act as a funny person and create a joke on the given {topic}?
+             Please be mindful and sensitive about the content though.
+            """);
     private final OpenAiChatClient openAiChatClient;
 
     public OpenAIService(OpenAiChatClient openAiChatClient) {
@@ -17,10 +21,6 @@ public class OpenAIService {
     }
 
     public String getJoke(String topic) {
-        PromptTemplate promptTemplate = new PromptTemplate("""
-                 Please act as a funny person and  create a joke on the given {topic}?
-                 Please be mindful and sensitive about the content though.
-                """);
         promptTemplate.add("topic", topic);
 
         ChatResponse chatResponse = this.openAiChatClient.call(promptTemplate.create());

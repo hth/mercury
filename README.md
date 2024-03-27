@@ -30,5 +30,5 @@ Recipe added for license and static import. Refer [OpenRewrite](https://docs.ope
 - [Rest Api](https://github.com/ollama/ollama/blob/main/docs/api.md#api) 
 - https://ollama.com/
 - https://useanything.com/
-- [Discord location Ollama](https://discord.com/channels/1128867683291627614/1150902223417655317) 
+- [Discord location Ollama](https://discord.com/channels/1128867683291627614/1150902223417655317)
 

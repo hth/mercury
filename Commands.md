@@ -4,9 +4,14 @@ Make sure your cursor is under `k8s` folder
 
 ### Deploy 
 
-    kubectl create -f mongo.yml && kubectl create -f kafka.yml && sleep 30 && 
-    kubectl create -f data-via-kafka.yml && sleep 30 && 
-    kubectl create -f data-consumer.yml && kubectl create -f data-csv.yml &&
+    kubectl create -f ollama.yml &&
+    kubectl create -f mongo.yml && 
+    kubectl create -f kafka.yml && 
+    sleep 60 && 
+    kubectl create -f data-via-kafka.yml && 
+    sleep 30 && 
+    kubectl create -f data-consumer.yml && 
+    kubectl create -f data-csv.yml &&
     kubectl create -f data-ai.yml
 
 ### Delete 
@@ -21,6 +26,11 @@ Make sure your cursor is under `k8s` folder
     kubectl delete serviceaccount kafka -n mercury-microservice
     kubectl delete service kafka-headless -n mercury-microservice
     kubectl delete statefulset kafka -n mercury-microservice
+
+    echo 'Delete ollama'
+    kubectl delete serviceaccount ollama -n mercury-microservice
+    kubectl delete service ollama-headless -n mercury-microservice
+    kubectl delete statefulset ollama -n mercury-microservice
 
     echo 'Delete data-via-kafka'
     kubectl delete service via-kafka-service -n mercury-microservice
@@ -45,13 +55,15 @@ Make sure your cursor is under `k8s` folder
     kubectl logs deployment.apps/via-kafka-deployment -n mercury-microservice
     kubectl logs deployment.apps/csv-deployment -n mercury-microservice
     kubectl logs kafka-0 -n mercury-microservice
+    kubectl logs ollama-0 -n mercury-microservice
     
-### Connect bash pod
+### Connect bash pod (removed deprecated command)
     
-    kubectl exec -it consumer-deployment-<id> /bin/sh -n mercury-microservice
-    kubectl exec -it kafka-0 /bin/sh -n mercury-microservice
-    kubectl exec -it mongo-deployment-<id> /bin/sh -n mercury-microservice
-    kubectl exec -it -c busybox nginx-busybox -- /bin/sh
+    kubectl exec consumer-deployment-<id> -- /bin/sh -n mercury-microservice
+    kubectl exec kafka-0 -- /bin/sh -n mercury-microservice
+    kubectl exec ollama-0 -- /bin/sh -n mercury-microservice
+    kubectl exec mongo-deployment-<id> -- /bin/sh -n mercury-microservice
+    kubectl exec -c busybox nginx-busybox -- /bin/sh
 
 - All pods - `kubectl get pods --all-namespaces`
 - Port of pod - `kubectl get pod kafka-0 --template='{{(index (index .spec.containers 0).ports 0).containerPort}}{{"\n"}}' -n mercury-microservice`
