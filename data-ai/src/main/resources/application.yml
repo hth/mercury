@@ -19,11 +19,11 @@ spring:
     virtual:
       enabled: true
   ai:
-    openai.api-key: ${spring.ai.openai.api-key}
+    openai.api-key: ${OPEN_API_KEY}
     ollama:
-      base-url: ${spring.ai.ollama.base-url}
+      base-url: ${OLLAMA_URL}
       chat:
         options:
-          model: ${spring.ai.ollama.chat.model}
+          model: ${OLLAMA_MODEL}
           temperature: 0.7
         enabled: true
