@@ -2,6 +2,19 @@
 
 This code runs multiple microservices to absorb transactions from via `kafka` or via `csv` file from `AWS S3`.
 
+`data-consumer` consumes transactions from `data-via-kafka` & `data-via-csv`. `data-consumer` produces its own transaction tagged as `CONSUMER`, whereas data
+coming from other source are tagged as `KAFKA`, `CSV`. `Success` and `Failed` transactions are streamed live. Percentage of failed transactions is `10%`.
+
+## Navigate code 
+
+- data-consumer (Consumes from Self, Kafka and S3. Persist data to Mongo. Stream Success and Failed transactions)
+- data-via-kafka (Data Produce and Published to Kafka)
+- data-csv (Produce data in CSV format. Stores data periodically to AWS S3)
+
+## Solution to design
+
+![Design Problem](./images/design-problem.png)
+
 ## Running Locally
 
 Follow steps mentioned in [Commands](Commands.md) to run this code locally
