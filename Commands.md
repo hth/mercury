@@ -17,7 +17,7 @@ Make sure your cursor is under `k8s` folder
 ### Add Model to Ollama
 
     kubectl exec -it ollama-0 /bin/sh -n mercury-microservice 
-    ollama run llama2:13b
+    ollama run llama2
     /bye
     exit
 

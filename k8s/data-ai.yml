@@ -54,4 +54,6 @@ spec:
               value: mongodb://$(MONGO_INITDB_ROOT_USERNAME):$(MONGO_INITDB_ROOT_PASSWORD)@$(MONGO_SERVICE_SERVICE_HOST):$(MONGO_SERVICE_SERVICE_PORT)/$(MONGO_DB_NAME)?authSource=admin #mongodb://host:27017/db
             - name: OLLAMA_URL
               value: http://ollama-headless:11434
+            - name: OLLAMA_MODEL
+              value: llama2
 
