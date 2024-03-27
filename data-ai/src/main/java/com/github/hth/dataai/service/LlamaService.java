@@ -11,6 +11,8 @@ import org.springframework.stereotype.Service;
 import com.github.hth.dataai.dto.LlamaResponse;
 import reactor.core.publisher.Flux;
 
+import java.time.LocalDateTime;
+
 @Service
 public class LlamaService {
     private final Logger log = LoggerFactory.getLogger(LlamaService.class);
@@ -22,9 +24,10 @@ public class LlamaService {
     }
 
     public LlamaResponse generateJoke(String topic) {
+        LlamaResponse llamaResponse = new LlamaResponse();
         final String llamaMessage = chatClient.call(String.format("Tell me a joke about %s", topic));
         log.info("Joke topic={} Response={}", topic, llamaMessage);
-        return new LlamaResponse().setMessage(llamaMessage);
+        return llamaResponse.setMessage(llamaMessage).setEnd(LocalDateTime.now());
     }
 
     public Flux<String> generateJokeStream(String topic) {
@@ -32,10 +35,11 @@ public class LlamaService {
     }
 
     public LlamaResponse generatePrompt(String promptMessage) {
+        LlamaResponse llamaResponse = new LlamaResponse();
         Prompt prompt = new Prompt(new UserMessage(promptMessage));
         final ChatResponse chatResponse = chatClient.call(prompt);
         log.info("{} {}", promptMessage, chatResponse.getResult());
-        return new LlamaResponse().setMessage(chatResponse.getResult().getOutput().getContent());
+        return llamaResponse.setMessage(chatResponse.getResult().getOutput().getContent()).setEnd(LocalDateTime.now());
     }
 
     public Flux<String> generatePromptStream(String promptMessage) {

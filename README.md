@@ -21,6 +21,8 @@ Recipe added for license and static import. Refer [OpenRewrite](https://docs.ope
 
 ## Spring AI
 
+Note: Running locally via Kubernetes needs higher memory footprint. Recommended to run `data-ai` using IntelliJ   
+
 - [Refer video on Ollama](https://youtube.com/watch?v=IJYC6zf86lU&t=36s)
 - library https://github.com/ollama/ollama
   - Llama 2	7B	3.8GB
