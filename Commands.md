@@ -14,6 +14,13 @@ Make sure your cursor is under `k8s` folder
     kubectl create -f data-csv.yml &&
     kubectl create -f data-ai.yml
 
+### Add Model to Ollama
+
+    kubectl exec -it ollama-0 /bin/sh -n mercury-microservice 
+    ollama run llama2:13b
+    /bye
+    exit
+
 ### Delete 
 
     echo 'Delete data-ai'
@@ -57,13 +64,13 @@ Make sure your cursor is under `k8s` folder
     kubectl logs kafka-0 -n mercury-microservice
     kubectl logs ollama-0 -n mercury-microservice
     
-### Connect bash pod (removed deprecated command)
+### Connect bash pod
     
-    kubectl exec consumer-deployment-<id> -- /bin/sh -n mercury-microservice
-    kubectl exec kafka-0 -- /bin/sh -n mercury-microservice
-    kubectl exec ollama-0 -- /bin/sh -n mercury-microservice
-    kubectl exec mongo-deployment-<id> -- /bin/sh -n mercury-microservice
-    kubectl exec -c busybox nginx-busybox -- /bin/sh
+    kubectl exec -it consumer-deployment-<id> /bin/sh -n mercury-microservice
+    kubectl exec -it kafka-0 /bin/sh -n mercury-microservice
+    kubectl exec -it ollama-0 /bin/sh -n mercury-microservice
+    kubectl exec -it mongo-deployment-<id> /bin/sh -n mercury-microservice
+    kubectl exec -it -c busybox nginx-busybox -- /bin/sh
 
 - All pods - `kubectl get pods --all-namespaces`
 - Port of pod - `kubectl get pod kafka-0 --template='{{(index (index .spec.containers 0).ports 0).containerPort}}{{"\n"}}' -n mercury-microservice`
