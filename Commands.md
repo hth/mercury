@@ -63,6 +63,7 @@ Make sure your cursor is under `k8s` folder
     kubectl logs deployment.apps/csv-deployment -n mercury-microservice
     kubectl logs kafka-0 -n mercury-microservice
     kubectl logs ollama-0 -n mercury-microservice
+    kubectl logs ai-deployment-<id> -n mercury-microservice
     
 ### Connect bash pod
     

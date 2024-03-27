@@ -39,7 +39,7 @@ public class LlamaController {
     @GetMapping("ll/joke/{topic}")
     public ResponseEntity<LlamaResponse> joke(@PathVariable("topic") String topic) {
         LlamaResponse llamaResponse = llamaService.generateJoke(topic);
-        log.info("Message Joke {} {}", topic, llamaResponse);
+        log.info("Message Joke topic={} response={}", topic, llamaResponse);
         return ResponseEntity.status(HttpStatus.OK).body(llamaResponse);
     }
 

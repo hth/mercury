@@ -11,6 +11,10 @@ import java.time.LocalDateTime;
 public class LlamaResponse {
     private String message;
     private LocalDateTime start = LocalDateTime.now();
-    private LocalDateTime end = LocalDateTime.now();
-    private long duration = Duration.between(start, end).toSeconds();
+    private String duration;
+
+    public LlamaResponse computeDuration() {
+        duration = Duration.between(start, LocalDateTime.now()).toSeconds() + " seconds";
+        return this;
+    }
 }
