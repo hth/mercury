@@ -19,6 +19,11 @@ spring:
     mongodb:
       uri: ${MONGO_URL}
       auto-index-creation: true
+    jdbc:
+      repositories:
+        enabled: true
+  datasource:
+    url: ${DATA_URL}
   threads:
     virtual:
       enabled: true

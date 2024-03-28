@@ -2,10 +2,15 @@
 
 Make sure your cursor is under `k8s` folder  
 
+### Prerequisite
+
+    kubectl apply -f secret/secret-mysql.yml
+
 ### Deploy 
 
     kubectl create -f ollama.yml &&
     kubectl create -f mongo.yml && 
+    kubectl create -f mysql.yml &&
     kubectl create -f kafka.yml && 
     sleep 60 && 
     kubectl create -f data-via-kafka.yml && 
@@ -44,7 +49,13 @@ Make sure your cursor is under `k8s` folder
     kubectl delete service mongo-service -n mercury-microservice
     kubectl delete persistentvolumeclaim mongo-data-pvc-mercury -n mercury-microservice  
     kubectl delete persistentvolume mongo-data-pv-mercury 
-    
+
+    echo 'Delete mysql'
+    kubectl delete deployment mysql-deployment -n mercury-microservice 
+    kubectl delete service mysql-service -n mercury-microservice
+    kubectl delete persistentvolumeclaim mysql-pvc-mercury -n mercury-microservice  
+    kubectl delete persistentvolume mysql-pv-mercury
+
     echo 'Delete Kafka'
     kubectl delete serviceaccount kafka -n mercury-microservice
     kubectl delete service kafka-headless -n mercury-microservice
@@ -86,6 +97,7 @@ Make sure your cursor is under `k8s` folder
 ### Describe
 
     kubectl describe service kafka-headless -n mercury-microservice
+    kubectl describe service mysql -n mercury-microservice
 
 ### URL
 
